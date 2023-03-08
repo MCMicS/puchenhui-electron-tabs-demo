@@ -4,10 +4,8 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
-const ipcRenderer = require("electron").ipcRenderer;
 
-const TabGroup = require("electron-tabs");
-let tabGroup = new TabGroup();
+let tabGroup = document.querySelector("tab-group");
 tabGroup.addTab(
   {
     title: "index",
@@ -44,11 +42,11 @@ onFlushed = () => {
 }
 
 toMin = () => {
-  ipcRenderer.send('window-min');
+  window.electronAPI.toMin()
 }
 toMax = () => {
   const max = document.getElementById('max');
-  ipcRenderer.send('window-max');
+  window.electronAPI.toMax()
   //最大化图形切换
   if (max.getAttribute('src') == './img/win_small.png') {
       max.setAttribute('src', './img/win_max.png');
@@ -57,5 +55,33 @@ toMax = () => {
   }
 }
 toClose = () => {
-  ipcRenderer.send('window-close')
+  window.electronAPI.toClose()
+}
+
+//addAppButtons1()
+addAppButtons()
+
+function addAppButtons1() {
+  const nav = tabGroup.buttonContainer.parentElement
+  nav.appendChild(document.querySelector('.nav-btn'))
+}
+function addAppButtons() {
+  const buttonContainer = document.createElement("div");
+  buttonContainer.setAttribute("class", 'app-nav');
+  const nav = tabGroup.buttonContainer.parentElement
+  nav.appendChild(buttonContainer)
+  buttonContainer.appendChild(createButtonToGroup(onFlushed, './img/win_refresh.svg', 'flushed'))
+  buttonContainer.appendChild(createButtonToGroup(toMin, './img/win_min.png'))
+  buttonContainer.appendChild(createButtonToGroup(toMax, './img/win_small.png', 'max'))
+  buttonContainer.appendChild(createButtonToGroup(toClose, './img/win_close.png'))
+}
+
+function createButtonToGroup(toCall, imageSrc, imageId = '') {
+  const button = document.createElement("button")
+  const img = document.createElement("img")
+  button.appendChild(img)
+  img.id = imageId
+  img.src = imageSrc
+  button.addEventListener("click", toCall, false);
+  return button
 }

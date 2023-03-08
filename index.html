@@ -8,24 +8,66 @@
   <link href="./styles.css" rel="stylesheet">
 </head>
 <body>
-<div class="nav-top">
-  <div class="nav-tabs">
-    <div class="etabs-tabgroup">
-      <div class="etabs-tabs"></div>
-      <div class="etabs-buttons"></div>
-    </div>
-  </div>
-  <div class="nav-btn">
-    <ul>
-      <li onclick="onFlushed()"><img id='flushed'  src="./img/win_refresh.svg" alt=""></li>
-      <li onclick="toMin()"><img src="./img/win_min.png" alt=""></li>
-      <li onclick="toMax()"><img id='max' src="./img/win_small.png" alt=""></li>
-      <li onclick="toClose()"><img src="./img/win_close.png" alt=""></li>
-    </ul>
-  </div>
-</div>
-<div class="etabs-views"></div>
+<!-- new-tab-button="true" to enable new button-->
+<tab-group sortable="true">
+  <style>
+    @import url( './styles.css' );
+    .buttons {
+      flex: 1;
+    }
 
+    .app-nav {
+      margin-right: 10px;
+      margin-left: 40px;
+      display: flex;
+    }
+
+    .app-nav button {
+      color: var(--button-color);
+      background: var(--button-background);
+      border-radius: var(--button-border-radius);
+      cursor: var(--button-cursor);
+      font-size: var(--button-font-size);
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      border: none;
+      margin: 0;
+      padding: 1px 0 0;
+      font-family: inherit;
+      line-height: 1;
+      display: block;
+    }
+
+    .app-nav button {
+      -webkit-app-region: no-drag;
+      list-style: none;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 0 10px;
+    }
+    .app-nav button img {
+      width: 12px;
+    }
+    .app-nav button:nth-child(1) img {
+      width: 14px;
+    }
+    .app-nav button:nth-child(2) img {
+      width: 12px;
+      height: 2px;
+    }
+    .app-nav button:nth-child(4) {
+      margin-right: 0;
+    }
+    .app-nav button:nth-child(4) img {
+      width: 10px;
+    }
+  </style>
+</tab-group>
+<script src="node_modules/electron-tabs/dist/electron-tabs.js"></script>
 <!-- You can also require other files to run in this process -->
 <script src="./renderer.js"></script>
 </body>

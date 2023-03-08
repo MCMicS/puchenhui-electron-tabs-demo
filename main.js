@@ -1,14 +1,13 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, ipcRenderer} = require('electron')
 const path = require('path')
 let mainWindow
 function createWindow() {
   mainWindow = new BrowserWindow({
     frame: process.platform === 'darwin',
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false, // needed for Electron >= 12.x
-      webviewTag: true
+      webviewTag: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 

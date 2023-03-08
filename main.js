@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
-
-function createWindow () {
-  const mainWindow = new BrowserWindow({
+let mainWindow
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    frame: process.platform === 'darwin',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // needed for Electron >= 12.x
@@ -11,11 +12,12 @@ function createWindow () {
     }
   });
 
+  mainWindow.maximize()
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -36,6 +38,28 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
+})
+
+ipcMain.on('window-min', function () {
+  mainWindow.minimize();
+})
+ipcMain.on('window-max', function () {
+  if (mainWindow.isMaximized()) {
+      mainWindow.restore();
+  } else {
+      mainWindow.maximize();
+  }
+})
+ipcMain.on('window-close', function (e) {
+  // mainWindow.close()
+  e.preventDefault();
+  if (process.platform == 'darwin') {
+      //  如果是mac系统
+      mainWindow.minimize();
+  } else if (process.platform == 'win32') {
+      //  如果是win系统
+      mainWindow.hide();
+  }
 })
 
 // In this file you can include the rest of your app's specific main process

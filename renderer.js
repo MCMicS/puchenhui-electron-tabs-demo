@@ -4,6 +4,7 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
+const ipcRenderer = require("electron").ipcRenderer;
 
 const TabGroup = require("electron-tabs");
 let tabGroup = new TabGroup();
@@ -40,4 +41,21 @@ onFlushed = () => {
     console.log('Reload tab with URL: ' + webview.getURL());
     webview.reload();
   }
+}
+
+toMin = () => {
+  ipcRenderer.send('window-min');
+}
+toMax = () => {
+  const max = document.getElementById('max');
+  ipcRenderer.send('window-max');
+  //最大化图形切换
+  if (max.getAttribute('src') == './img/win_small.png') {
+      max.setAttribute('src', './img/win_max.png');
+  } else {
+      max.setAttribute('src', './img/win_small.png');
+  }
+}
+toClose = () => {
+  ipcRenderer.send('window-close')
 }

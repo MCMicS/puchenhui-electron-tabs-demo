@@ -10,3 +10,12 @@
 body {
     margin: 0;
 }
+
+.profile-icon {
+  background-image: url("./img/28975452.jpg");
+  background-repeat: no-repeat;
+  background-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: inherit;
+}

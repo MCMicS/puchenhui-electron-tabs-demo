@@ -13,23 +13,25 @@ tabGroup.addTab(
     active: true,
     closable: false,
     visible: true,
+    iconURL: 'img/28975452.jpg',
     webviewAttributes: {
       allowpopups: true,
     },
   });
 
-openAddTab = (details, name) => {
+openAddTab = (details, name, iconClass = '') => {
   let tab = tabGroup.addTab({
     title: name,
     src: details.url,
     active: true,
+    icon: iconClass,
     webviewAttributes: {
       allowpopups: true,
     },
   });
   tab.webview.addEventListener('close', () => tab.close())
 }
-openAddTab({url: "https://github.com/puchenhui"}, 'Second')
+openAddTab({url: "https://github.com/puchenhui"}, 'Second', 'profile-icon')
 
 onFlushed = () => {
   let activeTab = tabGroup.getActiveTab()
